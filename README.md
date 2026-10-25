@@ -7,6 +7,7 @@ Isang modular, secure, at high-performance firmware para sa **ESP32** na sumusup
 ## 📌 Talaan ng Nilalaman (Table of Contents)
 - [Pangkalahatang Ideya](#-pangkalahatang-ideya-overview)
 - [Struktura ng mga Files (Modular Architecture)](#-struktura-ng-mga-files-modular-architecture)
+- [Capstone Schematic Diagram](#-capstone-schematic-diagram)
 - [Pinout at Hardware Connections](#-pinout-at-hardware-connections)
 - [Dalawang Operating Modes (Hardware Switch - Pin 33)](#-dalawang-operating-modes-hardware-switch---pin-33)
 - [Mga Sensor at Data Timing](#-mga-sensor-at-data-timing)
@@ -40,6 +41,34 @@ Naka-organisa ang code gamit ang modular `.h` (header) files upang malinis, mabi
 | [**`system_utils.h`**](file:///c:/Users/Administrator/Desktop/Capstone%20Patch%20ESP%2032%20code/esp32_OCT_24%20patch/system_utils.h) | AES-256 GCM crypto engine, NVS Preferences storage, buzzer tones, at JSON string builders. |
 | [**`ap_mode.h`**](file:///c:/Users/Administrator/Desktop/Capstone%20Patch%20ESP%2032%20code/esp32_OCT_24%20patch/ap_mode.h) | SoftAP creation, HTTP WebServer endpoints (`/info`, `/data`, atbp.), mDNS, at background Wi-Fi reconnect engine. |
 | [**`bluetooth_mode.h`**](file:///c:/Users/Administrator/Desktop/Capstone%20Patch%20ESP%2032%20code/esp32_OCT_24%20patch/bluetooth_mode.h) | Bluetooth Classic SPP stack, command parser, connection callbacks, at visibility watchdog. |
+
+---
+
+## 📐 Capstone Schematic Diagram
+
+Nasa ibaba ang opisyal na Fritzing circuit schematic diagram para sa buong Capstone project setup:
+
+![Capstone Schematic Diagram](Capstone_schem.png)
+
+### ⚡ Buod ng Koneksyon sa Schematic:
+1. **Power Supply & Distribution (UPS 12V Output & LM2596 Step-Down):**
+   - **UPS Output (2.1mm Barrel Jack, 12V):** Dumadaan sa **Main Power Switch**.
+   - **LM2596 DC-DC Buck Converter (12V to 5V):**
+     - `+Vi` / `-Vi`: Konektado sa 12V output pagkatapos ng Switch at common GND.
+     - `+Vo` (Naka-regulate sa 5V): Nagbibigay ng 5V power sa `EXT_5V` pin ng ESP32 at `VCC` ng MAX485 TTL Breakout.
+     - `-Vo`: Naka-tie sa common System Ground (GND).
+   - **7-in-1 Soil Sensor (JXBS-3001-NPK-RS):**
+     - `PWR+`: Direktang nakakabit sa 12V rail mula sa Switch.
+     - `PWR-`: Nakakabit sa common Ground (GND).
+2. **ESP32 Node & Sensor Interfacing:**
+   - **DHT22:** Pinapagana ng 3.3V (`VDD33`), GND, at ang Data OUT ay nakakabit sa **GPIO 27**.
+   - **BH1750:** Pinapagana ng 3.3V, GND, `ADDR` sa GND, `SDA` sa **GPIO 21**, at `SCL` sa **GPIO 18**.
+   - **MAX485 TTL Breakout Module:** Pinapagana ng 5V (`EXT_5V`), GND, `RO` sa **GPIO 16 (RX2)**, `DI` sa **GPIO 17 (TX2)**, `RE` sa **GPIO 4**, at `DE` sa **GPIO 5**.
+   - **RS485 Differential Bus:** Ang `A` at `B` pins ng MAX485 module ay nakakonekta sa `485A` at `485B` wires ng JXBS-3001 soil sensor.
+3. **Controls & Indicators:**
+   - **Bluetooth & WiFi Mode Switch:** Naka-wire sa **GPIO 33** papuntang Ground gamit ang internal pull-up.
+   - **Return Device Ownership SWITCH (Reset Button):** Naka-wire sa **GPIO 13** papuntang Ground.
+   - **Buzzer:** Nakakabit sa pagitan ng **GPIO 15** at Ground.
 
 ---
 
