@@ -1,4 +1,4 @@
-# SiliGuide IoT - ESP32 Smart Agriculture Monitoring Node
+# SiliGuide IoT - ESP32 
 
 Isang modular, secure, at high-performance firmware para sa **ESP32** na sumusuporta sa multi-sensor soil at environmental monitoring gamit ang **Bluetooth Classic (SPP)** at **Wi-Fi (SoftAP & LAN Station Mode)**.
 
