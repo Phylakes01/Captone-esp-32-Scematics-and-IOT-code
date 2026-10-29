@@ -6,7 +6,7 @@
 #include "ap_mode.h"
 #include "bluetooth_mode.h"
 
-// Non-blocking sensor polling timer (1-second interval)
+
 unsigned long lastSensorRead = 0;
 
 // ================= DIAGNOSTIC HEARTBEAT =================

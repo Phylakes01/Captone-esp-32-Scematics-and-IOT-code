@@ -232,7 +232,7 @@ inline void scanBootNetworks() {
   for (int i = 0; i < bootNetworkCount; i++) {
     bootNetworks[i].ssid = WiFi.SSID(i);
     bootNetworks[i].channel = WiFi.channel(i);
-    Serial.printf("  [Cached] %s (ch=%d)\n", bootNetworks[i].ssid.c_str(), bootNetworks[i].channel);
+  Serial.printf("  [Cached] %s (c5%d)\n", bootNetworks[i].ssid.c_str(), bootNetworks[i].channel);
   }
   WiFi.scanDelete();
 }
