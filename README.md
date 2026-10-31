@@ -61,7 +61,7 @@ Nasa ibaba ang opisyal na Fritzing circuit schematic diagram para sa buong Capst
      - `PWR+`: Direktang nakakabit sa 12V rail mula sa Switch.
      - `PWR-`: Nakakabit sa common Ground (GND).
 2. **ESP32 Node & Sensor Interfacing:**
-   - **DHT22:** Pinapagana ng 3.3V (`VDD33`), GND, at ang Data OUT ay nakakabit sa **GPIO 27**.
+   - **DHT22:** Pinapagana ng 3.3V (`VDD33`), GND, at ang Data OUT ay nakakabit sa **GPIO 26**.
    - **BH1750:** Pinapagana ng 3.3V, GND, `ADDR` sa GND, `SDA` sa **GPIO 21**, at `SCL` sa **GPIO 18**.
    - **MAX485 TTL Breakout Module:** Pinapagana ng 5V (`EXT_5V`), GND, `RO` sa **GPIO 16 (RX2)**, `DI` sa **GPIO 17 (TX2)**, `RE` sa **GPIO 4**, at `DE` sa **GPIO 5**.
    - **RS485 Differential Bus:** Ang `A` at `B` pins ng MAX485 module ay nakakonekta sa `485A` at `485B` wires ng JXBS-3001 soil sensor.
@@ -79,7 +79,7 @@ Nasa ibaba ang opisyal na Fritzing circuit schematic diagram para sa buong Capst
 | **Mode Switch** | **GPIO 33** | Digital Input | Gamit ang internal `INPUT_PULLUP`. Nakakabit papuntang Ground (GND). |
 | **Reset Button** | **GPIO 13** | Digital Input | Internal `INPUT_PULLUP`. Pindutin ng 5 segundo para sa NVS wipe / recovery reset. |
 | **Buzzer** | **GPIO 15** | PWM / Digital Output | 2.7 kHz resonant tone pagkatapos ng recovery reset. |
-| **DHT22** | **GPIO 27** | Single-Bus Digital | Data pin para sa temperatura at moisture ng hangin. |
+| **DHT22** | **GPIO 26** | Single-Bus Digital | Data pin para sa temperatura at moisture ng hangin. |
 | **BH1750 (SDA)** | **GPIO 21** | I2C Data | 3.3V I2C bus (Address: `0x23`). |
 | **BH1750 (SCL)** | **GPIO 18** | I2C Clock | 3.3V I2C bus. |
 | **MAX485 / RS485 RX** | **GPIO 16** | HardwareSerial 2 RX | Konektado sa RO pin ng MAX485 module. |

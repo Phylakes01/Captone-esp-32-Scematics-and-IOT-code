@@ -53,16 +53,18 @@ inline String getStatus() {
 }
 
 inline String createSensorJson() {
-  static char buf[384];
+  static char buf[512];
   snprintf(buf, sizeof(buf),
            "{\"soil\":{\"moisture\":%.1f,\"temperature\":%.1f,\"ph\":%.1f,"
            "\"ec\":%d,\"nitrogen\":%d,\"phosphorus\":%d,\"potassium\":%d},"
-           "\"environment\":{\"light\":%d,\"airTemperature\":%.1f,\"status\":"
-           "\"%s\"},"
-           "\"system\":{\"sensorOK\":%s,\"dhtOK\":%s}}",
+           "\"environment\":{\"light\":%d,\"airTemperature\":%.1f,"
+           "\"status\":\"%s\"},"
+           "\"system\":{\"sensorOK\":%s,\"dhtOK\":%s,\"lightOK\":%s}}",
            humiditySmooth, soilTempSmooth, phSmooth, ecSmooth, nSmooth, pSmooth,
-           kSmooth, (int)luxSmooth, airTempCSmooth, getStatus().c_str(),
-           sensorOK ? "true" : "false", dhtOK ? "true" : "false");
+           kSmooth, (int)luxSmooth, airTempCSmooth,
+           getStatus().c_str(),
+           sensorOK ? "true" : "false", dhtOK ? "true" : "false",
+           bh1750OK ? "true" : "false");
   return String(buf);
 }
 

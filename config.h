@@ -53,7 +53,7 @@
 #define BUZZER_FREQ 2700 // 2.7 kHz resonant frequency
 
 // DHT22 Air Temperature & Humidity Sensor
-#define DHTPIN 27
+#define DHTPIN 26
 #define DHTTYPE DHT22
 
 // BH1750 Ambient Light Sensor (I2C)

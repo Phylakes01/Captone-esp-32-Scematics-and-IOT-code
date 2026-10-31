@@ -477,16 +477,27 @@ inline void handleWiFiReconnectEngine() {
   }
 
   // 3. Background LAN Reconnect Engine (in Bluetooth + LAN mode)
+  //    CRITICAL: WiFi.begin() disrupts the shared 2.4GHz radio and KILLS active
+  //    Bluetooth SPP connections. We MUST NOT attempt WiFi reconnect while a
+  //    Bluetooth client is connected or was recently active.
   if (!TEST_BT_ONLY && btModeActive && WiFi.status() != WL_CONNECTED && !isTryingSTA) {
-    bool btActive = btConnected || (millis() - lastBtActivityTime < 15000);
+    // HARD RULE: Never touch WiFi while Bluetooth is actively connected
+    if (btConnected) {
+      return;
+    }
+
+    // Grace period: wait 30 seconds after BT activity before WiFi retry
+    // This prevents WiFi.begin() from disrupting a BT session that just ended
+    // or a client that is about to reconnect
+    bool btRecentlyActive = (millis() - lastBtActivityTime < 30000);
     bool recentlyDisconnected = (wifiDisconnectTime > 0) && (millis() - wifiDisconnectTime < WIFI_DISCONNECT_BT_GUARD);
 
-    if (!btActive && !recentlyDisconnected && (millis() - lastRetryTime > 15000)) {
+    if (!btRecentlyActive && !recentlyDisconnected && (millis() - lastRetryTime > 30000)) {
       lastRetryTime = millis();
       String savedSSID, savedPass;
       int savedCh = 0;
       if (loadWiFi(savedSSID, savedPass, savedCh)) {
-        Serial.printf("[LAN Mode] Background reconnecting to [%s] on Channel %d...\n", savedSSID.c_str(), savedCh);
+        Serial.printf("[LAN Mode] BT idle >30s. Background reconnecting to [%s]...\n", savedSSID.c_str());
         if (savedCh > 0) {
           WiFi.begin(savedSSID.c_str(), savedPass.c_str(), savedCh);
         } else {
